@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:yaars/data/firestore_helper.dart';
 
 class BusDataController extends GetxController {
-  // static receivedBusDataLocation = <Map<String, dynamic>>[].obs;
+  static var receivedBusDataLocation = <Map<String, dynamic>>[].obs;
 
   Future<void> getLocationOfChild({required String name}) async {
     var allBusData = await FSHelper.getData();
@@ -13,6 +13,11 @@ class BusDataController extends GetxController {
         var busData = allBusData[i];
         if (busData.names.contains(name)) {
           indexOfChild = i;
+          receivedBusDataLocation.add({
+            'latitude': busData.geoPoint.latitude,
+            'longitude': busData.geoPoint.longitude
+          });
+          print(receivedBusDataLocation);
           break;
         }
       }
