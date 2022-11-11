@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:yaars/data/firestore_helper.dart';
 
 class MapView extends StatelessWidget {
   const MapView({super.key});
@@ -16,6 +17,8 @@ class MapView extends StatelessWidget {
         west: 5.9559113,
       ),
     );
+
+    getDataFromFirestore();
 
     return OSMFlutter(
       controller: mapController,
@@ -59,5 +62,9 @@ class MapView extends StatelessWidget {
       )),
     );
     ;
+  }
+
+  void getDataFromFirestore() async {
+    await FSHelper.getData();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:yaars/data/firestore_helper.dart';
 import 'firebase_options.dart';
 import 'package:yaars/map/map.dart';
 
@@ -8,6 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FSHelper.init();
   runApp(const MyApp());
 }
 
