@@ -43,7 +43,7 @@ class BusData {
   factory BusData.fromMap(Map<String, dynamic> map) {
     // print("Type of name: ")
     return BusData(
-        bus_number: map['Bus Number'] as int,
+        bus_number: map['number'] as int,
         geoPoint: map['geometry'],
         school: map['School'] as String,
         names: List<String>.from(

@@ -15,7 +15,8 @@ class BusDataController extends GetxController {
           indexOfChild = i;
           receivedBusDataLocation.add({
             'latitude': busData.geoPoint.latitude,
-            'longitude': busData.geoPoint.longitude
+            'longitude': busData.geoPoint.longitude,
+            'number': busData.bus_number
           });
           print(receivedBusDataLocation);
           break;

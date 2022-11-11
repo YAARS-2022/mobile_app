@@ -4,8 +4,13 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 class MapView extends StatelessWidget {
   final double latitude;
   final double longitude;
+  final int number;
 
-  const MapView({super.key, required this.latitude, required this.longitude});
+  const MapView(
+      {super.key,
+      required this.latitude,
+      required this.longitude,
+      required this.number});
 
   @override
   Widget build(BuildContext context) {
@@ -34,47 +39,62 @@ class MapView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Map'),
       ),
-      body: OSMFlutter(
-        staticPoints: staticPoints,
-        controller: mapController,
-        trackMyPosition: false,
-        initZoom: 12,
-        minZoomLevel: 8,
-        maxZoomLevel: 14,
-        stepZoom: 1.0,
-        userLocationMarker: UserLocationMaker(
-          personMarker: const MarkerIcon(
-            icon: Icon(
-              Icons.location_history_rounded,
-              color: Colors.red,
-              size: 48,
+      body: Column(
+        children: [
+          Expanded(
+            child: OSMFlutter(
+              staticPoints: staticPoints,
+              controller: mapController,
+              trackMyPosition: false,
+              initZoom: 12,
+              minZoomLevel: 8,
+              maxZoomLevel: 14,
+              stepZoom: 1.0,
+              userLocationMarker: UserLocationMaker(
+                personMarker: const MarkerIcon(
+                  icon: Icon(
+                    Icons.location_history_rounded,
+                    color: Colors.red,
+                    size: 48,
+                  ),
+                ),
+                directionArrowMarker: const MarkerIcon(
+                  icon: Icon(
+                    Icons.double_arrow,
+                    size: 48,
+                  ),
+                ),
+              ),
+              roadConfiguration: RoadConfiguration(
+                startIcon: const MarkerIcon(
+                  icon: Icon(
+                    Icons.person,
+                    size: 64,
+                    color: Colors.brown,
+                  ),
+                ),
+                roadColor: Colors.yellowAccent,
+              ),
+              markerOption: MarkerOption(
+                  defaultMarker: const MarkerIcon(
+                icon: Icon(
+                  Icons.person_pin_circle,
+                  color: Colors.blue,
+                  size: 56,
+                ),
+              )),
             ),
           ),
-          directionArrowMarker: const MarkerIcon(
-            icon: Icon(
-              Icons.double_arrow,
-              size: 48,
+          Container(
+            color: Colors.white70,
+            child: Text(
+              'Bus Number : $number',
+              style: const TextStyle(
+                fontSize: 40,
+              ),
             ),
-          ),
-        ),
-        roadConfiguration: RoadConfiguration(
-          startIcon: const MarkerIcon(
-            icon: Icon(
-              Icons.person,
-              size: 64,
-              color: Colors.brown,
-            ),
-          ),
-          roadColor: Colors.yellowAccent,
-        ),
-        markerOption: MarkerOption(
-            defaultMarker: const MarkerIcon(
-          icon: Icon(
-            Icons.person_pin_circle,
-            color: Colors.blue,
-            size: 56,
-          ),
-        )),
+          )
+        ],
       ),
     );
   }
