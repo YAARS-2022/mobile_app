@@ -8,12 +8,16 @@ class FSHelper {
     _db = FirebaseFirestore.instance;
   }
 
-  static getData() async {
+  static Future<List<BusData>> getData() async {
+    var busDataList = <BusData>[];
     await _db.collection("Buses").get().then((event) {
       for (var doc in event.docs) {
         var busData = BusData.fromMap(doc.data());
+        busDataList.add(busData);
         print(busData);
       }
     });
+
+    return busDataList;
   }
 }

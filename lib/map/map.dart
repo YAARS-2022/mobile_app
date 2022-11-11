@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:yaars/data/firestore_helper.dart';
+import 'package:yaars/models/bus_data.dart';
 
 class MapView extends StatelessWidget {
-  const MapView({super.key});
+  final BusData busData;
+  const MapView({super.key, required this.busData});
 
   @override
   Widget build(BuildContext context) {
     MapController mapController = MapController(
       initMapWithUserPosition: false,
-      initPosition: GeoPoint(latitude: 47.4358055, longitude: 8.4737324),
+      initPosition: GeoPoint(
+          latitude: busData.geoPoint.latitude,
+          longitude: busData.geoPoint.longitude),
       areaLimit: BoundingBox(
         east: 10.4922941,
         north: 47.8084648,
