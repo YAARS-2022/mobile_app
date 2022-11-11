@@ -33,10 +33,15 @@ class _HomePageState extends State<HomePage> {
     if (busDataController.receivedBusDataLocation.isNotEmpty) {
       var latitude = busDataController.receivedBusDataLocation[0]['latitude'];
       var longitude = busDataController.receivedBusDataLocation[0]['longitude'];
+      var busNumber = busDataController.receivedBusDataLocation[0]['number'];
 
       print('From home: Latitude = $latitude,  Longitude = $longitude');
 
-      Get.to(() => MapView(latitude: latitude, longitude: longitude));
+      Get.to(() => MapView(
+            latitude: latitude,
+            longitude: longitude,
+            number: busNumber,
+          ));
     }
   }
 }
