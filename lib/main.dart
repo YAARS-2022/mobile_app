@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:yaars/data/firestore_helper.dart';
 import 'package:yaars/home.dart';
 import 'firebase_options.dart';
-import 'package:yaars/map/map.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
