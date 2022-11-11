@@ -20,11 +20,12 @@ class MapView extends StatelessWidget {
       ),
     );
 
-    var staticPointOfChild = StaticPositionGeoPoint(
-        'child',
-        const MarkerIcon(
-          iconWidget: const Text('Ashmit'),
-        ),
+    MarkerIcon childMarkerOnMap = MarkerIcon(
+      assetMarker: AssetMarker(
+          image: const AssetImage('assets/marker.png'), scaleAssetImage: 4),
+    );
+
+    var staticPointOfChild = StaticPositionGeoPoint('child', childMarkerOnMap,
         [GeoPoint(latitude: latitude, longitude: longitude)]);
 
     List<StaticPositionGeoPoint> staticPoints = [staticPointOfChild];
