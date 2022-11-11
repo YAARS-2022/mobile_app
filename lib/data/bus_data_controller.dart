@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/firestore_helper.dart';
 
 class BusDataController extends GetxController {
   var receivedBusDataLocation = <Map<String, dynamic>>[].obs;
 
   Future<void> getLocationOfChild({required String name}) async {
+    final storage = GetStorage();
+    storage.write('child', name);
     var allBusData = await FSHelper.getData();
     int? indexOfChild;
 
