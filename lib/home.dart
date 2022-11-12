@@ -22,11 +22,57 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => navigateToMap(),
-          child: const Text('Find Ashmit'),
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                Image.asset('assets/school.jpg',
+                fit: BoxFit.fill,
+                height: 500,),
+                Align(
+                 alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: Colors.grey,
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Icon(Icons.school,
+                          color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('YAARS School',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
+                          ),),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () => navigateToMap(),
+            child: Container(
+              width: 1080,
+              height: 100,
+              color: Colors.blueAccent,
+              alignment: Alignment.center,
+              child: const Text("Find my child",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20
+              ),),
+            ),
+          )
+        ]
       ),
     );
   }

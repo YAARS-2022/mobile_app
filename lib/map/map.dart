@@ -45,7 +45,7 @@ class MapView extends StatelessWidget {
             child: OSMFlutter(
               staticPoints: staticPoints,
               controller: mapController,
-              trackMyPosition: false,
+              trackMyPosition: true,
               initZoom: 12,
               minZoomLevel: 8,
               maxZoomLevel: 14,
