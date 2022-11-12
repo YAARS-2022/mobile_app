@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/firestore_helper.dart';
 import 'package:yaars/home.dart';
+import 'package:yaars/utilities/distance_measurement.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(GetStorage().read('child'));
+    DistanceMeasurement.measureDistance();
+
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
