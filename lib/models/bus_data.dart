@@ -10,26 +10,17 @@ class BusData {
   GeoPoint geoPoint;
   String school;
   List<String> names;
+  String driver;
+  String phone;
+
   BusData({
     required this.bus_number,
     required this.geoPoint,
     required this.school,
     required this.names,
+    required this.driver,
+    required this.phone,
   });
-
-  BusData copyWith({
-    int? bus_number,
-    GeoPoint? geoPoint,
-    String? school,
-    List<String>? names,
-  }) {
-    return BusData(
-      bus_number: bus_number ?? this.bus_number,
-      geoPoint: geoPoint ?? this.geoPoint,
-      school: school ?? this.school,
-      names: names ?? this.names,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -48,7 +39,10 @@ class BusData {
         school: map['School'] as String,
         names: List<String>.from(
           (map['name'] as List<dynamic>),
-        ));
+        ),
+        driver: map['driver'] as String,
+        phone: map['phone'] as String,
+    );
   }
 
   String toJson() => json.encode(toMap());

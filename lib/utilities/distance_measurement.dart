@@ -9,7 +9,7 @@ class DistanceMeasurement {
     return await Geolocator.getCurrentPosition();
   }
 
-  static measureDistance() async {
+  static Future<double> measureDistance() async {
     final notificationController = Get.put(NotificationController());
     double? parentLat, parentLon;
     double childLat, childLon;
@@ -36,8 +36,10 @@ class DistanceMeasurement {
 
       notificationController.sendNotification();
 
+      return distance;
     } else {
       print('No child or parent location stored stored');
+      return 100.0;
     }
   }
 

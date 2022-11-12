@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:yaars/widgets/table.dart';
+
 
 class MapView extends StatelessWidget {
   final double latitude;
   final double longitude;
   final int number;
+  final String driver;
+  final String phone;
+  final double distance;
 
   const MapView(
       {super.key,
       required this.latitude,
       required this.longitude,
-      required this.number});
+      required this.number, required this.driver, required this.phone, required this.distance});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class MapView extends StatelessWidget {
             child: OSMFlutter(
               staticPoints: staticPoints,
               controller: mapController,
-              trackMyPosition: false,
+              trackMyPosition: true,
               initZoom: 12,
               minZoomLevel: 8,
               maxZoomLevel: 14,
@@ -87,13 +92,15 @@ class MapView extends StatelessWidget {
           ),
           Container(
             color: Colors.white70,
-            child: Text(
-              'Bus Number : $number',
-              style: const TextStyle(
-                fontSize: 40,
-              ),
+            child: Column(
+              children: [
+                MyTextField(label: 'Bus number', value: number.toString(),),
+                MyTextField(label: 'Driver', value: driver,),
+                MyTextField(label: 'Phone', value: phone,),
+                MyTextField(label: 'Distance', value: '${distance.round()}  m'),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
