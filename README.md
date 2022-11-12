@@ -1,16 +1,8 @@
-# yaars
+# Sahayatri
 
-A new Flutter project.
+This is a flutter application of our real time school bus tracking system.
+It has following features:
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Find the location of the bus where the child is
+* Get the distance to the child from current position
+* Get notification when the child is near
