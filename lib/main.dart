@@ -3,14 +3,28 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:workmanager/workmanager.dart';
 import 'package:yaars/data/firestore_helper.dart';
 import 'package:yaars/home.dart';
-import 'package:yaars/utilities/distance_measurement.dart';
 import 'package:yaars/utilities/notification_manager.dart';
 import 'firebase_options.dart';
+import 'package:yaars/utilities/background_manager.dart';
+import 'dart:developer' as developer;
 
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((taskName, inputData) {
+    developer.log(
+        'Native called background task: $taskName', name: "BackgroundManager");
+    return Future.value(true);
+  });
+}
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Workmanager().initialize(callbackDispatcher,
+  isInDebugMode: true);
+  Workmanager().registerOneOffTask("task-identifier", "simpleTask");
 
   AwesomeNotifications().initialize(
       null,
@@ -30,8 +44,8 @@ Future main() async {
       ],
       debug: true);
 
-  await GetStorage.init();
-  await Firebase.initializeApp(
+   GetStorage.init();
+   Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FSHelper.init();
