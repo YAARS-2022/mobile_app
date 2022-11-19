@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/bus_data_controller.dart';
 import 'package:yaars/utilities/notification_manager.dart';
+import 'dart:developer' as developer;
 
 class DistanceMeasurement {
   static Future<Position> determinePosition() async {
@@ -27,18 +28,18 @@ class DistanceMeasurement {
       await busDataController.getLocationOfChild(name: child);
       childLat = busDataController.receivedBusDataLocation[0]['latitude'];
       childLon = busDataController.receivedBusDataLocation[0]['longitude'];
-      print('Child: Lat: $childLat, Lon: $childLon');
-      print('Parent: Lat: $parentLat, Lon: $parentLon');
+      developer.log('Child: Lat: $childLat, Lon: $childLon', name: 'DistanceMeasurement');
+      developer.log('Parent: Lat: $parentLat, Lon: $parentLon', name: 'DistanceMeasurement');
 
       var distance =
           Geolocator.distanceBetween(childLat, childLon, parentLat, parentLon);
-      print('The distance is $distance');
+      developer.log('The distance is $distance', name: 'DistanceMeasurement');
 
       notificationController.sendNotification();
 
       return distance;
     } else {
-      print('No child or parent location stored stored');
+      developer.log('No child or parent location stored stored', name: 'DistanceMeasurement');
       return 100.0;
     }
   }
@@ -48,7 +49,7 @@ class DistanceMeasurement {
     var parentLat = currentPosition.latitude;
     var parentLon = currentPosition.longitude;
 
-    GetStorage().write('parentLat', parentLat);
-    GetStorage().write('parentLon', parentLon);
+    await GetStorage().write('parentLat', parentLat);
+    await GetStorage().write('parentLon', parentLon);
   }
 }

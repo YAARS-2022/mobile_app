@@ -1,21 +1,48 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:yaars/data/firestore_helper.dart';
 import 'package:yaars/home.dart';
+import 'package:yaars/utilities/distance_measurement.dart';
 import 'package:yaars/utilities/notification_manager.dart';
 import 'firebase_options.dart';
 import 'package:yaars/utilities/background_manager.dart';
 import 'dart:developer' as developer;
 
+import 'models/bus_data.dart';
+
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-  Workmanager().executeTask((taskName, inputData) {
+  Workmanager().executeTask((taskName, inputData) async {
     developer.log(
-        'Native called background task: $taskName', name: "BackgroundManager");
+        'Native called background task: $taskName', name: "Main");
+
+    // var distance = DistanceMeasurement.measureDistance();
+    // developer.log('The distance currently is ${distance.toString()}', name: 'Main');
+
+    Position userLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    var parentLat = userLocation.latitude;
+    var parentLon = userLocation.longitude;
+
+    developer.log('Parent locations: $parentLat, $parentLon',name: "Main");
+
+    await Firebase.initializeApp();
+    var db = FirebaseFirestore.instance;
+    developer.log('Type of db : ${db.runtimeType}', name: "Main");
+    var busDataList = <BusData>[];
+    await db.collection("Buses").get().then((event) {
+      for (var doc in event.docs) {
+        var busData = BusData.fromMap(doc.data());
+        busDataList.add(busData);
+        developer.log(busData.toString(), name: 'Main');
+      }
+    });
+
     return Future.value(true);
   });
 }
@@ -45,7 +72,7 @@ Future main() async {
       debug: true);
 
    GetStorage.init();
-   Firebase.initializeApp(
+  await  Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FSHelper.init();
