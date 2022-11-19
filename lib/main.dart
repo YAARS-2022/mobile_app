@@ -29,20 +29,31 @@ void callbackDispatcher() {
     var parentLat = userLocation.latitude;
     var parentLon = userLocation.longitude;
 
+    double childLat;
+    double childLon;
+
+
     developer.log('Parent locations: $parentLat, $parentLon',name: "Main");
 
     await Firebase.initializeApp();
     var db = FirebaseFirestore.instance;
     developer.log('Type of db : ${db.runtimeType}', name: "Main");
-    var busDataList = <BusData>[];
     await db.collection("Buses").get().then((event) {
       for (var doc in event.docs) {
         var busData = BusData.fromMap(doc.data());
-        busDataList.add(busData);
+        if (busData.names.contains('Ashmit')) {
+            childLat = busData.geoPoint.latitude;
+            childLon = busData.geoPoint.longitude;
+
+            developer.log('Child position : $childLat, $childLon', name: "Main");
+
+            var distance = Geolocator.distanceBetween(parentLat, parentLon, childLat, childLon);
+            developer.log("The distance between parent and child is $distance m", name: "Main");
+
+        }
         developer.log(busData.toString(), name: 'Main');
       }
     });
-
     return Future.value(true);
   });
 }
