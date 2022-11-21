@@ -3,7 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 
 class NotificationController extends GetxController {
 
-  void sendNotification(){
+  void sendNotification(String message){
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         // This is just a basic example. For real apps, you must show some
@@ -16,7 +16,7 @@ class NotificationController extends GetxController {
     //Create Notification
     AwesomeNotifications().createNotification(content: NotificationContent(id: 1, channelKey: 'child',
     title: 'Your child is near',
-    body: 'You can get to the pickup point now.',
+    body: message,
     criticalAlert: true));
   }
 

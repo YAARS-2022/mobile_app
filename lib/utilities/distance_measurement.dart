@@ -35,7 +35,7 @@ class DistanceMeasurement {
           Geolocator.distanceBetween(childLat, childLon, parentLat, parentLon);
       developer.log('The distance is $distance', name: 'DistanceMeasurement');
 
-      notificationController.sendNotification();
+      // notificationController.sendNotification();
 
       return distance;
     } else {
