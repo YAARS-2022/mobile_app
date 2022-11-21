@@ -19,7 +19,18 @@ import 'models/bus_data.dart';
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
-    developer.log('Native called background task: $taskName', name: "Main");
+
+    bool locationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission;
+
+    if(!locationServiceEnabled){
+      return Future.error('Location services disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if(permission == LocationPermission.denied){
+      return Future.error('Location permissions are denied');
+    }
 
     Position userLocation = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -67,7 +78,6 @@ Future main() async {
     "task-identifier", "simpleTask",
     frequency: const Duration(minutes: 15),
     constraints: Constraints(networkType: NetworkType.connected),
-    // initialDelay: const Duration(seconds: 15)
   );
 
   AwesomeNotifications().initialize(
