@@ -8,10 +8,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:yaars/data/firestore_helper.dart';
 import 'package:yaars/home.dart';
-import 'package:yaars/utilities/distance_measurement.dart';
 import 'package:yaars/utilities/notification_manager.dart';
 import 'firebase_options.dart';
-import 'package:yaars/utilities/background_manager.dart';
 import 'dart:developer' as developer;
 
 import 'models/bus_data.dart';

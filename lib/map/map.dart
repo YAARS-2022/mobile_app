@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:get/get.dart';
 import 'package:yaars/widgets/table.dart';
+
+import '../utilities/map_controller.dart';
 
 
 class MapView extends StatelessWidget {
@@ -11,7 +14,10 @@ class MapView extends StatelessWidget {
   final String phone;
   final double distance;
 
-  const MapView(
+  final routeController = Get.put(RouteController());
+
+
+  MapView(
       {super.key,
       required this.latitude,
       required this.longitude,
@@ -19,26 +25,29 @@ class MapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MapController mapController = MapController(
-      initMapWithUserPosition: false,
-      initPosition: GeoPoint(latitude: latitude, longitude: longitude),
-      areaLimit: BoundingBox(
-        east: 10.4922941,
-        north: 47.8084648,
-        south: 45.817995,
-        west: 5.9559113,
-      ),
-    );
+    // MapController mapController = MapController(
+    //   initMapWithUserPosition: false,
+    //   initPosition: GeoPoint(latitude: latitude, longitude: longitude),
+    //   areaLimit: BoundingBox(
+    //     east: 10.4922941,
+    //     north: 47.8084648,
+    //     south: 45.817995,
+    //     west: 5.9559113,
+    //   ),
+    // );
 
-    MarkerIcon childMarkerOnMap = MarkerIcon(
-      assetMarker: AssetMarker(
-          image: const AssetImage('assets/marker.png'), scaleAssetImage: 4),
-    );
 
-    var staticPointOfChild = StaticPositionGeoPoint('child', childMarkerOnMap,
-        [GeoPoint(latitude: latitude, longitude: longitude)]);
 
-    List<StaticPositionGeoPoint> staticPoints = [staticPointOfChild];
+    // MarkerIcon childMarkerOnMap = MarkerIcon(
+    //   assetMarker: AssetMarker(
+    //       image: const AssetImage('assets/marker.png'), scaleAssetImage: 4),
+    // );
+    //
+    // var staticPointOfChild = StaticPositionGeoPoint('child', childMarkerOnMap,
+    //     [GeoPoint(latitude: latitude, longitude: longitude)]);
+
+    // List<StaticPositionGeoPoint> staticPoints = [staticPointOfChild];
+
 
     return Scaffold(
       appBar: AppBar(
@@ -47,9 +56,13 @@ class MapView extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: OSMFlutter(
-              staticPoints: staticPoints,
-              controller: mapController,
+            child: Obx( () => OSMFlutter(
+              mapIsLoading: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              onMapIsReady: mapReady,
+              // staticPoints: staticPoints,
+              controller: RouteController.mapController.value,
               trackMyPosition: true,
               initZoom: 12,
               minZoomLevel: 8,
@@ -89,6 +102,7 @@ class MapView extends StatelessWidget {
                 ),
               )),
             ),
+            )
           ),
           Container(
             color: Colors.white70,
@@ -104,5 +118,11 @@ class MapView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  mapReady(bool ready) {
+    if(ready){
+      routeController.setMapController('Ashmit');
+    }
   }
 }
