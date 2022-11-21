@@ -19,16 +19,19 @@ import 'models/bus_data.dart';
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
+    var notificationController = Get.put(NotificationController());
 
     bool locationServiceEnabled = await Geolocator.isLocationServiceEnabled();
     LocationPermission permission;
 
     if(!locationServiceEnabled){
+      notificationController.sendNotification('Location services disabled');
       return Future.error('Location services disabled.');
     }
 
     permission = await Geolocator.checkPermission();
     if(permission == LocationPermission.denied){
+      notificationController.sendNotification('Location services denied');
       return Future.error('Location permissions are denied');
     }
 
@@ -59,7 +62,6 @@ void callbackDispatcher() {
           developer.log("The distance between parent and child is $distance m",
               name: "Main");
 
-          var notificationController = Get.put(NotificationController());
           notificationController.sendNotification(
               "Your child is approximately ${(distance / 1000).round()} km away.");
         }
