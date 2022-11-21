@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:yaars/data/bus_data_controller.dart';
 import 'package:yaars/map/map.dart';
 import 'package:yaars/utilities/distance_measurement.dart';
+import 'package:yaars/utilities/map_controller.dart';
 import 'package:yaars/utilities/notification_manager.dart';
 
 class HomePage extends StatefulWidget {
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
 
   navigateToMap() async {
     double distance = await DistanceMeasurement.measureDistance();
+
 
     await busDataController.getLocationOfChild(name: 'Ashmit');
     if (busDataController.receivedBusDataLocation.isNotEmpty) {
