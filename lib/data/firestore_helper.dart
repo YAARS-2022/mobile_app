@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yaars/models/bus_data.dart';
+import 'dart:developer';
 
 class FSHelper {
   static late FirebaseFirestore _db;
@@ -12,9 +13,11 @@ class FSHelper {
     var busDataList = <BusData>[];
     await _db.collection("Buses").get().then((event) {
       for (var doc in event.docs) {
+        var id = doc.id;
         var busData = BusData.fromMap(doc.data());
+        busData.setId(id);
         busDataList.add(busData);
-        print(busData);
+        log(busData.toString(), name: "FSHelper");
       }
     });
 

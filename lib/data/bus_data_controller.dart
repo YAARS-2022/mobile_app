@@ -6,6 +6,7 @@ import 'package:yaars/data/firestore_helper.dart';
 class BusDataController extends GetxController {
 
   var receivedBusDataLocation = <Map<String, dynamic>>[].obs;
+  static var busId = "".obs;
 
   Future<void> getLocationOfChild({required String name}) async {
     final storage = GetStorage();
@@ -21,7 +22,7 @@ class BusDataController extends GetxController {
           receivedBusDataLocation.add({
             'latitude': busData.geoPoint.latitude,
             'longitude': busData.geoPoint.longitude,
-            'number': busData.bus_number,
+            'number': busData.busNumber,
             'driver': busData.driver,
             'phone': busData.phone,
           });
