@@ -1,8 +1,10 @@
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/firestore_helper.dart';
 
 class BusDataController extends GetxController {
+
   var receivedBusDataLocation = <Map<String, dynamic>>[].obs;
 
   Future<void> getLocationOfChild({required String name}) async {
@@ -31,5 +33,18 @@ class BusDataController extends GetxController {
         print('$name is in index $indexOfChild');
       }
     }
+  }
+
+  static Future<GeoPoint?> getBusLocation(String name) async {
+    var busDataList = await FSHelper.getData();
+    for (var busData in busDataList){
+      var names = busData.names;
+      if(names.contains(name)){
+        double latitude = busData.geoPoint.latitude;
+        double longitude = busData.geoPoint.longitude;
+        return GeoPoint(latitude: latitude, longitude: longitude);
+      }
+    }
+    return null;
   }
 }
