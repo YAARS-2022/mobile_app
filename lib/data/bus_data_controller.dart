@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/firestore_helper.dart';
 
+import '../utilities/map_controller.dart';
+
 class BusDataController extends GetxController {
 
   var receivedBusDataLocation = <Map<String, dynamic>>[].obs;
@@ -43,6 +45,7 @@ class BusDataController extends GetxController {
       if(names.contains(name)){
         double latitude = busData.geoPoint.latitude;
         double longitude = busData.geoPoint.longitude;
+        RouteController.setBusId(busData.id);
         return GeoPoint(latitude: latitude, longitude: longitude);
       }
     }

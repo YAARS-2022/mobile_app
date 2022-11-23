@@ -23,4 +23,13 @@ class FSHelper {
 
     return busDataList;
   }
+
+  static void listenToUpdates(String collection, String documentID) {
+    final docRef = _db.collection(collection).doc(documentID);
+    docRef.snapshots().listen((event) {
+      log('Current data is ${event.data()}', name: 'FSHelper');
+    }, onError: (error) {
+      log('An error has occurred. $error', name: 'FSHelper');
+    });
+  }
 }

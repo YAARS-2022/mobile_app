@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:yaars/data/bus_data_controller.dart';
 import 'dart:developer' as developer;
 
+import 'package:yaars/data/firestore_helper.dart';
+
 class RouteController extends GetxController{
 
     static final mapController = MapController(
@@ -16,6 +18,7 @@ class RouteController extends GetxController{
         west: 5.9559113,
       ),
     ).obs;
+    static String? id;
 
     MarkerIcon childMarkerOnMap = MarkerIcon(
       assetMarker: AssetMarker(
@@ -28,6 +31,8 @@ class RouteController extends GetxController{
 
       GeoPoint? childBusLocation = await BusDataController.getBusLocation(name);
       GeoPoint? userLocation = await getUserLocation();
+
+      developer.log("The id of bus where $name is is: $id", name: "RouteController");
 
       if(childBusLocation == null){
         Get.snackbar(
@@ -50,8 +55,16 @@ class RouteController extends GetxController{
             zoomInto: true,
           ),
         );
+
+        if(id != null){
+          FSHelper.listenToUpdates('Buses', id!);
+        }
       }
 
+    }
+
+    static setBusId(String? idStr){
+      id = idStr;
     }
 
   Future<GeoPoint> getUserLocation() async {
