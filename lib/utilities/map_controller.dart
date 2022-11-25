@@ -7,7 +7,6 @@ import 'package:yaars/data/bus_data_controller.dart';
 import 'dart:developer' as developer;
 
 import 'package:yaars/data/firestore_helper.dart';
-
 class RouteController extends GetxController{
 
     static final mapController = MapController(
@@ -20,6 +19,7 @@ class RouteController extends GetxController{
       ),
     ).obs;
     static String? id;
+
 
     MarkerIcon childMarkerOnMap = MarkerIcon(
       assetMarker: AssetMarker(
@@ -54,10 +54,10 @@ class RouteController extends GetxController{
         if(id != null){
           FSHelper.listenToUpdates('Buses', id!);
         }
+
       }
 
     }
-
     changeLocation(GeoPoint geoPoint)async{
       developer.log('New location : ${geoPoint.latitude}, ${geoPoint.longitude}');
       await mapController.value.setStaticPosition([geoPoint],'childBus' );
