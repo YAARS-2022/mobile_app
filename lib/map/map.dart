@@ -25,30 +25,6 @@ class MapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MapController mapController = MapController(
-    //   initMapWithUserPosition: false,
-    //   initPosition: GeoPoint(latitude: latitude, longitude: longitude),
-    //   areaLimit: BoundingBox(
-    //     east: 10.4922941,
-    //     north: 47.8084648,
-    //     south: 45.817995,
-    //     west: 5.9559113,
-    //   ),
-    // );
-
-
-
-    // MarkerIcon childMarkerOnMap = MarkerIcon(
-    //   assetMarker: AssetMarker(
-    //       image: const AssetImage('assets/marker.png'), scaleAssetImage: 4),
-    // );
-    //
-    // var staticPointOfChild = StaticPositionGeoPoint('child', childMarkerOnMap,
-    //     [GeoPoint(latitude: latitude, longitude: longitude)]);
-
-    // List<StaticPositionGeoPoint> staticPoints = [staticPointOfChild];
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map'),

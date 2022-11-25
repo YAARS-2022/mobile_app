@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:yaars/data/bus_data_controller.dart';
 import 'dart:developer' as developer;
 
+import 'package:yaars/data/firestore_helper.dart';
 class RouteController extends GetxController{
 
     static final mapController = MapController(
@@ -16,6 +18,8 @@ class RouteController extends GetxController{
         west: 5.9559113,
       ),
     ).obs;
+    static String? id;
+
 
     MarkerIcon childMarkerOnMap = MarkerIcon(
       assetMarker: AssetMarker(
@@ -29,6 +33,8 @@ class RouteController extends GetxController{
       GeoPoint? childBusLocation = await BusDataController.getBusLocation(name);
       GeoPoint? userLocation = await getUserLocation();
 
+      developer.log("The id of bus where $name is is: $id", name: "RouteController");
+
       if(childBusLocation == null){
         Get.snackbar(
           'No Data Found',
@@ -38,20 +44,43 @@ class RouteController extends GetxController{
       } else {
         // Add child's bus marker
 
-        await mapController.value.addMarker(childBusLocation, markerIcon: childMarkerOnMap);
-        RoadInfo roadInfo = await mapController.value.drawRoad(
-          childBusLocation,
-          userLocation,
-          roadType: RoadType.car,
-          roadOption: const RoadOption(
-            roadWidth: 10,
-            roadColor: Colors.blue,
-            showMarkerOfPOI: false,
-            zoomInto: true,
-          ),
-        );
+        // await mapController.value.addMarker(childBusLocation, markerIcon: childMarkerOnMap);
+
+        await mapController.value.setStaticPosition([childBusLocation], 'childBus');
+        await mapController.value.setMarkerOfStaticPoint(id: 'childBus', markerIcon: childMarkerOnMap);
+
+        drawRoad(childBusLocation, userLocation);
+
+        if(id != null){
+          FSHelper.listenToUpdates('Buses', id!);
+        }
+
       }
 
+    }
+    changeLocation(GeoPoint geoPoint)async{
+      developer.log('New location : ${geoPoint.latitude}, ${geoPoint.longitude}');
+      await mapController.value.setStaticPosition([geoPoint],'childBus' );
+      drawRoad(geoPoint);
+    }
+
+    static setBusId(String? idStr){
+      id = idStr;
+    }
+
+    drawRoad(GeoPoint start, [GeoPoint? end]) async {
+      end ??= await getUserLocation();
+      RoadInfo roadInfo = await mapController.value.drawRoad(
+        start,
+        end,
+        roadType: RoadType.car,
+        roadOption: const RoadOption(
+          roadWidth: 10,
+          roadColor: Colors.blue,
+          showMarkerOfPOI: false,
+          zoomInto: true,
+        ),
+      );
     }
 
   Future<GeoPoint> getUserLocation() async {
